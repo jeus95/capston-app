@@ -16,8 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyTwo" />
-        <activity android:name=".MyThree"></activity>
+        <activity android:name=".Calpower" />
+        <activity android:name=".Voice" />
+        <activity android:name=".StPower" />
+        <activity android:name=".CPower" />
+        <activity android:name=".Schedule"></activity>
     </application>
 
 </manifest>
