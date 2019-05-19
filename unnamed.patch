@@ -1,0 +1,521 @@
+Index: app/src/main/java/com/example/zeus/capston2019/Calpower.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zeus/capston2019/Calpower.java	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
++++ app/src/main/java/com/example/zeus/capston2019/Calpower.java	(date 1558026779361)
+@@ -10,4 +10,5 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_calpower);
+     }
++
+ }
+Index: app/src/main/java/com/example/zeus/capston2019/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zeus/capston2019/MainActivity.java	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
++++ app/src/main/java/com/example/zeus/capston2019/MainActivity.java	(date 1558035565814)
+@@ -1,29 +1,40 @@
+ package com.example.zeus.capston2019;
+ 
++import android.Manifest;
+ import android.content.Intent;
++import android.content.pm.PackageManager;
+ import android.os.Bundle;
++import android.support.v4.app.ActivityCompat;
++import android.support.v4.content.ContextCompat;
+ import android.support.v7.app.AppCompatActivity;
+ import android.view.View;
+ import android.widget.Button;
++import android.widget.ImageView;
++import android.widget.Toast;
+ 
+ public class MainActivity extends AppCompatActivity {
+ 
++    ImageView Voice;
++    ImageView CalPower;
++    ImageView Schedule;
++    ImageView CPower;
++    ImageView Set;
++
++
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
+-        // 화면 전환 - 인텐트 날리기 (startActivity)
+-        //     1. 다음 넘어갈 화면을 준비한다 (layout xml, java)
+-        //    2. AndroidManifest.xml 에 Activity 를 등록한다
+-        //    3. Intent 객체를 만들어서 startActivity 한다
++
+ 
+-        Button StPower_b = findViewById(R.id.button1);
+-        Button CPower_b = findViewById(R.id.button2);
+-        Button Schedule_b = findViewById(R.id.button3);
+-        Button CalPower_b = findViewById(R.id.button4);
+-        Button Voice_b = findViewById(R.id.button5);
++        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
++            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 5);
++            Toast.makeText(getApplicationContext(),"입장권한이 필요합니다.",Toast.LENGTH_SHORT);
++        }
+ 
+-        StPower_b.setOnClickListener(new View.OnClickListener() {
++
++        Set = (ImageView)findViewById(R.id.Set);
++        Set.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View view) {
+                                              Intent intent = new Intent(
+@@ -35,7 +46,8 @@
+ 
+ 
+         );
+-        CPower_b.setOnClickListener(new View.OnClickListener() {
++        CPower = (ImageView)findViewById(R.id.CPower);
++        CPower.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View view) {
+                                             Intent intent = new Intent(
+@@ -47,7 +59,8 @@
+ 
+ 
+         );
+-        Schedule_b.setOnClickListener(new View.OnClickListener() {
++        Schedule = (ImageView)findViewById(R.id.Schedule);
++        Schedule.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View view) {
+                                               Intent intent = new Intent(
+@@ -59,7 +72,8 @@
+ 
+ 
+         );
+-        CalPower_b.setOnClickListener(new View.OnClickListener() {
++        CalPower = (ImageView)findViewById(R.id.CalPower);
++        CalPower.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View view) {
+                                               Intent intent = new Intent(
+@@ -70,19 +84,22 @@
+                                       }
+ 
+ 
++
+         );
+-        Voice_b.setOnClickListener(new View.OnClickListener() {
+-                                       @Override
+-                                       public void onClick(View view) {
+-                                           Intent intent = new Intent(
+-                                                   getApplicationContext(), // 현재 화면의 제어권자
+-                                                   Voice.class); // 다음 넘어갈 클래스 지정
+-                                           startActivity(intent); // 다음 화면으로 넘어간다
+-                                       }
+-                                   }
++
++        Voice = (ImageView)findViewById(R.id.Voice);
++        Voice.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                Intent intent = new Intent(
++                        getApplicationContext(), // 현재 화면의 제어권자
++                        Voice.class); // 다음 넘어갈 클래스 지정
++                startActivity(intent); // 다음 화면으로 넘어간다
++            }
++        });
+ 
+ 
+-        );
++
+ 
+ 
+     } // end onCreate()
+Index: app/src/main/java/com/example/zeus/capston2019/Voice.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zeus/capston2019/Voice.java	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
++++ app/src/main/java/com/example/zeus/capston2019/Voice.java	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
+@@ -1,138 +0,0 @@
+-package com.example.zeus.capston2019;
+-
+-import android.Manifest;
+-import android.content.Intent;
+-import android.content.pm.PackageManager;
+-import android.os.Bundle;
+-import android.speech.RecognitionListener;
+-import android.speech.RecognizerIntent;
+-import android.speech.SpeechRecognizer;
+-import android.speech.tts.TextToSpeech;
+-import android.support.v4.app.ActivityCompat;
+-import android.support.v4.content.ContextCompat;
+-import android.support.v7.app.AppCompatActivity;
+-import android.view.View;
+-import android.widget.Button;
+-import android.widget.LinearLayout;
+-import android.widget.ScrollView;
+-import android.widget.TextView;
+-import android.widget.Toast;
+-
+-import java.util.ArrayList;
+-import java.util.Locale;
+-
+-public class Voice extends AppCompatActivity {
+-
+-    TextToSpeech tts;
+-
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 5);
+-            toast("음성인식을 위해서는 권한이 필요합니다.");
+-        }
+-        LinearLayout layout = new LinearLayout(this);
+-        layout.setOrientation(1);
+-        final TextView txt = new TextView(this);
+-        txt.setText("\n");
+-        txt.setTextSize(18);
+-        layout.addView(txt);
+-        Button input = new Button(this);
+-        input.setText("음성 입력");
+-        input.setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View v) {
+-                inputVoice(txt);
+-            }
+-        });
+-        layout.addView(input);
+-        ScrollView scroll = new ScrollView(this);
+-        scroll.addView(layout);
+-        setContentView(scroll);
+-        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+-            @Override
+-            public void onInit(int status) {
+-                tts.setLanguage(Locale.KOREAN);
+-            }
+-        });
+-    }
+-
+-    public void inputVoice(final TextView txt) {
+-        try {
+-            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+-            intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, this.getPackageName());
+-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+-            final SpeechRecognizer stt = SpeechRecognizer.createSpeechRecognizer(this);
+-            stt.setRecognitionListener(new RecognitionListener() {
+-                @Override
+-                public void onReadyForSpeech(Bundle params) {
+-                    toast("음성 입력 시작...");
+-                }
+-
+-                @Override
+-                public void onBeginningOfSpeech() {
+-
+-                }
+-
+-                @Override
+-                public void onRmsChanged(float rmsdB) {
+-
+-                }
+-
+-                @Override
+-                public void onBufferReceived(byte[] buffer) {
+-                }
+-
+-                @Override
+-                public void onEndOfSpeech() {
+-                    toast("음성 입력 종료");
+-                }
+-
+-                @Override
+-                public void onError(int error) {
+-                    toast("오류 발생 : " + error);
+-                    stt.destroy();
+-                }
+-
+-                @Override
+-                public void onResults(Bundle results) {
+-                    ArrayList<String> result = (ArrayList<String>) results.get(SpeechRecognizer.RESULTS_RECOGNITION);
+-                    txt.append("[나] " + result.get(0) + "\n");
+-                    replyAnswer(result.get(0), txt);
+-                    stt.destroy();
+-                }
+-
+-                @Override
+-                public void onPartialResults(Bundle partialResults) {
+-
+-                }
+-
+-                @Override
+-                public void onEvent(int eventType, Bundle params) {
+-
+-                }
+-            });
+-            stt.startListening(intent);
+-        } catch (Exception e) {
+-            toast(e.toString());
+-        }
+-    }
+-
+-    private void replyAnswer(String input, TextView txt) {
+-        try {
+-            if (input.equals("꺼줘")) {
+-                txt.append("꺼줘가 입력 되었습니다.\n");
+-
+-            }
+-
+-        } catch (Exception e) {
+-            toast(e.toString());
+-        }
+-    }
+-
+-    private void toast(String msg) {
+-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+-    }
+-
+-}
+Index: app/src/main/res/layout/activity_calpower.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_calpower.xml	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
++++ app/src/main/res/layout/activity_calpower.xml	(date 1558034450114)
+@@ -3,6 +3,7 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:visibility="visible"
+     tools:context=".Calpower">
+ 
+ </android.support.constraint.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
++++ app/src/main/res/layout/activity_main.xml	(date 1558039957688)
+@@ -4,59 +4,85 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:background="#ffffff"
+     tools:context=".MainActivity"
+     tools:layout_editor_absoluteY="25dp">
+ 
+-    <Button
+-        android:id="@+id/button1"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginStart="48dp"
+-        android:layout_marginTop="40dp"
+-        android:text="대기전력"
++    <ImageView
++        android:id="@+id/CPower"
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        android:layout_marginBottom="19dp"
++        android:layout_marginEnd="15dp"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="276dp"
++        android:src="@drawable/cpower_off"
++        app:layout_constraintBottom_toTopOf="@+id/CalPower"
++        app:layout_constraintEnd_toStartOf="@+id/Schedule"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent" />
+ 
+-    <Button
+-        android:id="@+id/button2"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginEnd="92dp"
+-        android:layout_marginTop="40dp"
+-        android:text="전원제어 "
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
+-
+-    <Button
+-        android:id="@+id/button3"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginEnd="66dp"
+-        android:layout_marginStart="48dp"
+-        android:layout_marginTop="128dp"
+-        android:text="예약설정"
+-        app:layout_constraintEnd_toStartOf="@+id/button4"
++    <ImageView
++        android:id="@+id/CalPower"
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        android:layout_marginBottom="16dp"
++        android:layout_marginEnd="31dp"
++        android:layout_marginStart="73dp"
++        android:src="@drawable/calpower_on"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toStartOf="@+id/Set"
+         app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/Schedule" />
++
++    <ImageView
++        android:id="@+id/Set"
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        android:layout_marginBottom="16dp"
++        android:layout_marginEnd="80dp"
++        android:src="@drawable/set_off"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toEndOf="@+id/CalPower"
++        app:layout_constraintTop_toBottomOf="@+id/Voice" />
++
++    <ImageView
++        android:id="@+id/Schedule"
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        android:layout_marginBottom="19dp"
++        android:layout_marginEnd="17dp"
++        android:layout_marginTop="276dp"
++        android:src="@drawable/alarm_off"
++        app:layout_constraintBottom_toTopOf="@+id/CalPower"
++        app:layout_constraintEnd_toStartOf="@+id/Voice"
++        app:layout_constraintStart_toEndOf="@+id/CPower"
+         app:layout_constraintTop_toTopOf="parent" />
+ 
+-    <Button
+-        android:id="@+id/button4"
++    <ImageView
++        android:id="@+id/Voice"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+-        android:layout_marginEnd="84dp"
+-        android:text="실시간전력"
+-        app:layout_constraintBottom_toBottomOf="@+id/button3"
++        android:layout_marginBottom="19dp"
++        android:layout_marginEnd="36dp"
++        android:layout_marginTop="276dp"
++        android:src="@drawable/getvoice_off"
++        app:layout_constraintBottom_toTopOf="@+id/Set"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toEndOf="@+id/button3"
+-        app:layout_constraintTop_toTopOf="@+id/button3" />
++        app:layout_constraintStart_toEndOf="@+id/Schedule"
++        app:layout_constraintTop_toTopOf="parent" />
+ 
+-    <Button
+-        android:id="@+id/button5"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginTop="27dp"
+-        android:text="음성인식"
+-        app:layout_constraintStart_toStartOf="@+id/button3"
+-        app:layout_constraintTop_toBottomOf="@+id/button3" />
++    <TextView
++        android:id="@+id/Title"
++        android:layout_width="200dp"
++        android:layout_height="100dp"
++        android:gravity="center"
++        android:text="현재 전류량은 0W"
++        android:textAlignment="center"
+ 
++        android:textSize="30sp"
++        tools:layout_editor_absoluteX="83dp"
++        tools:layout_editor_absoluteY="158dp"
++        />
+ </android.support.constraint.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
++++ app/src/main/res/values/styles.xml	(date 1558249686992)
+@@ -6,6 +6,9 @@
+         <item name="colorPrimary">@color/colorPrimary</item>
+         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+         <item name="colorAccent">@color/colorAccent</item>
++        <item name="windowActionBar">false</item>
++        <item name="windowNoTitle">true</item>
++
+     </style>
+ 
+ </resources>
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
++++ app/src/main/AndroidManifest.xml	(date 1558250097462)
+@@ -4,6 +4,7 @@
+ 
+     <uses-permission android:name="android.permission.INTERNET" />
+     <uses-permission android:name="android.permission.RECORD_AUDIO" />
++    <uses-permission android:name="android.permission.VIBRATE" />
+ 
+     <application
+         android:allowBackup="true"
+@@ -13,17 +14,22 @@
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+         <activity android:name=".MainActivity">
++        </activity>
++        <activity android:name=".Intro">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
++
+         <activity android:name=".Calpower" />
+-        <activity android:name=".Voice" />
+         <activity android:name=".StPower" />
+         <activity android:name=".CPower" />
+-        <activity android:name=".Schedule"></activity>
+-    </application>
++        <activity android:name=".Schedule" />
++        <activity android:name=".Voice" />
++
++
++        </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision fd60cf9c2283dc258ca50d5f8dc4afea8db17737)
++++ app/build.gradle	(date 1558240269219)
+@@ -23,6 +23,9 @@
+     implementation 'com.android.support:appcompat-v7:27.0.2'
+     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+     implementation 'com.google.firebase:firebase-core:16.0.1'
++    compile 'com.github.bumptech.glide:glide:3.7.0'
++
++
+     testImplementation 'junit:junit:4.12'
+     androidTestImplementation 'com.android.support.test:runner:1.0.2'
+     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+diff --git .idea/caches/build_file_checksums.ser .idea/caches/build_file_checksums.ser
+index 48ca11755d8d5c08d072200dd96cfd974df0df01..bf8cd71fbf442fbe9a6e4a33a62b8354d2cbf58e
+GIT binary patch
+literal 541
+zc${1FmVvdnh`~NNKUXg?FQq6yGexf?KR>5fFEb@IQ7^qHF(oHeub?PDD>b=9F91S2
+zm1gFoxMk*~I%lLNXBU^|7Q2L-Ts|(GuF1r}<i#MFTj`TnT;dMa8(f)}9Fm!vT3nKt
+zTj0aMpIeEdv4nx&Co8cmQNOe#Ge_SyvB0{bfPsNA>s<4O-#~W>g5>l-a(W(##Th_(
+zR`y#54~r#SWM*J;W8likPfT%3OfJbU@?_vF$tX%K&dAS6sVJ~_U;qK0at<IV0K{x1
+z3<8M-1u;n=r$fC}TExH<?X>2z_zyOYkOxc*3?Qo+1a9Qd+oN=6LpJZl#fO8+j~D=*
+zSe#l?l9`uY4AWT1P{+UqQakTv!ake(?0LEgdQ#y|hZmMG=r~)&gche3700|;(DG*9
+znm4mH#6Y#hAVRYswWuUBwHRU071^Gf{S2E}UN&&fc=N-lu7rUH#i?+G+S#v5=Emk+
+z&CChjZ*pAuI?!J^`N@enSWWFbX_LM3=fwX4ft=ZqRo8x%FbLvtL+x|%s7KNUiK}ln
+Lc!a9HT2ui5AQ!_4
+
