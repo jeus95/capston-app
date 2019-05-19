@@ -28,10 +28,8 @@ public class Voice extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 5);
-            toast("음성인식을 위해서는 권한이 필요합니다.");
-        }
+
+
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(1);
         final TextView txt = new TextView(this);

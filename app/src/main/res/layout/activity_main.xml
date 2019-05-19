@@ -4,59 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
-        android:text="대기전력"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="92dp"
-        android:layout_marginTop="40dp"
-        android:text="전원제어 "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="66dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="128dp"
-        android:text="예약설정"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button4"
+    <ImageView
+        android:id="@+id/CPower"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="84dp"
-        android:text="실시간전력"
-        app:layout_constraintBottom_toBottomOf="@+id/button3"
+        android:layout_marginBottom="19dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="276dp"
+        android:src="@drawable/cpower_off"
+        app:layout_constraintBottom_toTopOf="@+id/CalPower"
+        app:layout_constraintEnd_toStartOf="@+id/Schedule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/CalPower"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginStart="73dp"
+        android:src="@drawable/calpower_on"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Set"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Schedule" />
+
+    <ImageView
+        android:id="@+id/Set"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="80dp"
+        android:src="@drawable/set_off"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toTopOf="@+id/button3" />
+        app:layout_constraintStart_toEndOf="@+id/CalPower"
+        app:layout_constraintTop_toBottomOf="@+id/Voice" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
-        android:text="음성인식"
-        app:layout_constraintStart_toStartOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+    <ImageView
+        android:id="@+id/Schedule"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="19dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginTop="276dp"
+        android:src="@drawable/alarm_off"
+        app:layout_constraintBottom_toTopOf="@+id/CalPower"
+        app:layout_constraintEnd_toStartOf="@+id/Voice"
+        app:layout_constraintStart_toEndOf="@+id/CPower"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/Voice"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="19dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginTop="276dp"
+        android:src="@drawable/getvoice_off"
+        app:layout_constraintBottom_toTopOf="@+id/Set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Schedule"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="현재 전류량은 0W"
+        android:textAlignment="center"
+
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="83dp"
+        tools:layout_editor_absoluteY="158dp"
+        />
 </android.support.constraint.ConstraintLayout>
